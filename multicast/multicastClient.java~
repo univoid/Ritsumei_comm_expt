@@ -1,5 +1,4 @@
 /**
- *
  * multicastクライアント
  * multicastClient.java
  *
@@ -10,15 +9,15 @@ import java.io.*;
 import java.net.*;
 
 class multicastClient{
-   static final int MULTI_PORT = 50000;  //マルチキャスト接続用ポート番号
-   static final int BUFSIZE = 1792;  //バッファサイズ
+   static final int MULTI_PORT = 50000;  
+   static final int BUFSIZE = 1792;  
    public static void main(String[] args)
    {
-      int len;  //データ長
-      int i;  //キーインバッファクリアインデックス
-      byte[] wbuf = new byte[BUFSIZE];  //ワークバッファ
-      MulticastSocket sock = null;  //マルチキャストソケット
-      InetAddress ipadr;  //マルチキャストIPアドレス
+      int len;  
+      int i;  
+      byte[] wbuf = new byte[BUFSIZE];  
+      MulticastSocket sock = null;  
+      InetAddress ipadr; 
       //new begin
       FileOutputStream out = null;		//file
       BufferedOutputStream bout = null;	//bin file
@@ -26,20 +25,20 @@ class multicastClient{
       //new end
       if(args.length != 1){
          throw new IllegalArgumentException(
-         "usage: >java multicastClient ＜IP_Address＞");
+         "usage: >java multicastClient <IP_Address>");
       }
       try
       {
-         //マルチキャストソケット設定
+         
          sock = new MulticastSocket(MULTI_PORT);
-         //IPアドレス設定
+         
          ipadr = InetAddress.getByName(args[0]);
          sock.joinGroup(ipadr);
-         byte[] buf = new byte[BUFSIZE];  //受信バッファ
+         byte[] buf = new byte[BUFSIZE];  
          while(true){
-            //データグラムパケット
+            
             DatagramPacket packet = new DatagramPacket(buf,buf.length);
-            sock.receive(packet);  //データ受信
+            sock.receive(packet);  
             String recvdata = new String(packet.getData());
             recvdata = recvdata.trim();
             wbuf = recvdata.getBytes();  //文字列→バイト配列変換
@@ -47,17 +46,17 @@ class multicastClient{
             len = wbuf.length;
             buf = new byte[BUFSIZE];
             while(wbuf[i] != 0x0d){  //途中のCR検出
-               buf[i] = wbuf[i];  //データコピー
-               i++;
-               if(i >= len){
-                  break;
-               }
+                buf[i] = wbuf[i];  //データコピー
+                i++;
+                if(i >= len){
+                     break;
+                }
             }
             recvdata = new String(buf,0,i);  //バイト配列→文字列変換
             if("QUIT".toString().equalsIgnoreCase(recvdata)){
                break;
             }
-            System.out.println(recvdata);  //画面出力
+            System.out.println("Get:"+recvdata);  //画面出力
 	    //new begin
 	    out = new FileOutputStream(recvdata);
 	    bout = new BufferedOutputStream(out);
@@ -83,5 +82,5 @@ class multicastClient{
       }
       System.out.println("\r\n..END...");
    }
-}  
+}
 
