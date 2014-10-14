@@ -78,12 +78,12 @@ class multicastServer{
             while ((i = bin.read(buf, 0, BUFSIZE) )==BUFSIZE){
 		//System.out.println("GO!");
             	sendPacket = new DatagramPacket(buf, buf.length, ipadr, port);
- 		//System.out.println(new String(sendPacket.getData()));
+ 		System.out.println(new String(sendPacket.getData()));
 		sock.send(sendPacket);
             	Thread.sleep(5);
             }
             sendPacket = new DatagramPacket(buf, 0, i, ipadr, port);
-	    //System.out.println(new String(sendPacket.getData()));
+	    System.out.println(new String(sendPacket.getData()));
             sock.send(sendPacket);
             Thread.sleep(5);
             System.out.println("send done.");
