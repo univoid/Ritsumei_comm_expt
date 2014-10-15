@@ -1,0 +1,20 @@
+/**
+ *
+ * Timer.java
+ *
+ * 用法例
+ * >java Timer
+ */
+import java.io.*;
+
+public class Timer {
+  public static void main(String[] args) throws IOException{
+    long start, end;						
+    start = System.currentTimeMillis();  //開始時刻
+    System.out.println("please input some key");
+    System.in.read();  //キー入力
+    end = System.currentTimeMillis();  //終了時刻
+    //計算時間を表示（start, endはミリ秒単位）
+    System.out.println("time: " + ((end-start)/1000.0)+"sec");
+  }
+}
