@@ -1,7 +1,6 @@
 /*
 *
-* >java UnicastReceiver filename
-*
+* java UnicastReceiver filename
 */
 
 import java.io.*;
@@ -17,16 +16,17 @@ public class UnicastReceiver {
         DatagramSocket serverSocket = null;    //socket
         DatagramPacket getPacket = null;    //get packet
         DatagramPacket sendPacket = null;    //send packet
+        InetAddress ip = null;            //ip
 
         try {
             System.out.println("Server start.");
             int port = UNI_PORT;
-            //output stream begin
             serverSocket = new DatagramSocket(port);
+            //output stream begin
             out = new FileOutputStream(args[0]);
             bout = new BufferedOutputStream(out);
             byte[] buf = new byte[BUFSIZE];
-            int i = 0;              //length of Packet
+            int i = 0;
             //get file
             while (true) {
                 getPacket = new DatagramPacket(buf, 0, buf.length);
@@ -40,13 +40,12 @@ public class UnicastReceiver {
             System.out.println("Get done.");
             //output stream end
             bout.close();
-            //get feedback
+            //feedback
             SocketAddress sendAddress = getPacket.getSocketAddress();
             String feedback = "received successfully!";
             byte[] backBuf = feedback.getBytes();
             sendPacket = new DatagramPacket(backBuf, backBuf.length, sendAddress);
             serverSocket.send(sendPacket);
-
         } catch (Exception e) {
             e.printStackTrace();
         }
